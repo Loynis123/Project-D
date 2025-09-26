@@ -8,7 +8,9 @@
 </head>
 <body>
     <header>
-            <img class="logo" src="photos/Project_d_logo.webp">
+        <div class="logo-container">
+            <img class="logo" src="photos/Project_d_logo.webp" alt="Project D Logo">
+        </div>
         <nav>
             <ul>
                 <li><a href="index.html" class="active">Главная</a></li>
@@ -23,6 +25,25 @@
             <h1 class="main-title">Добро пожаловать в Project D</h1>
             <p class="subtitle">Эксклюзивные автомобили для избранных</p>
             <button class="infbutton" id="explore-btn">Доп.информация</button>
+        </section>
+        <section class="media-section">
+            <div class="media-container">
+                <h2>Почувствуйте удобство и комфорт GR86</h2>
+                <p>Посмотрите и послушайте наше авто в действии!</p>
+                
+                <div class="media-content">
+                    <video class="car-video" controls poster="photos/car-preview.jpg">
+                        <source src="media/TOYOTA GR86 ACCELERATING EXHAUST SOUND!!.mp4" type="video/mp4">
+                    </video>
+                    
+                    <div class="audio-controls">
+                        <h3>Звук мотора</h3>
+                        <audio id="engine-sound" controls>
+                            <source src="media/smartsound_TRANSPORTATION_CAR_Toyota_GT86_Acceleration_Long_Fast_01.mp3" type="audio/mp3">
+                        </audio>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section class="cards">
@@ -44,6 +65,5 @@
     <footer>
         <p>&copy; 2025 Project D. Все права защищены.</p>
     </footer>
-
 </body>
 </html>
