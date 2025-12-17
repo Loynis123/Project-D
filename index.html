@@ -3,10 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project D</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Project D - Главная</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+    </div>
+
     <header>
         <div class="logo-container">
             <img class="logo" src="photos/Project_d_logo.webp" alt="Project D Logo">
@@ -15,24 +20,34 @@
             <ul>
                 <li><a href="index.html" class="active">Главная</a></li>
                 <li><a href="cars.html">Автомобили</a></li>
-                <li><a href="contact.html">Контакты</a></li>
+                <li><a href="map.html">Карта</a></li>
+                <li id="nav-auth">
+                    <a href="contact.html">Войти</a>
+                </li>
+                <li id="nav-user" style="display: none;">
+                    <a href="dashboard.html">Личный кабинет</a>
+                </li>
+                <li id="nav-logout" style="display: none;">
+                    <a href="#" id="logout-link">Выход</a>
+                </li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <section class="hero">
+        <section class="hero-section hero">
             <h1 class="main-title">Добро пожаловать в Project D</h1>
             <p class="subtitle">Эксклюзивные автомобили для избранных</p>
-            <button class="infbutton" id="explore-btn">Доп.информация</button>
+            <button class="btn" id="explore-btn">Доп.информация</button>
         </section>
-        <section class="media-section">
-            <div class="media-container">
-                <h2>Почувствуйте удобство и комфорт GR86</h2>
-                <p>Посмотрите и послушайте наше авто в действии!</p>
+
+        <section class="content-section">
+            <div class="content-container">
+                <h2 class="section-title">Почувствуйте удобство и комфорт GR86</h2>
+                <p class="section-text">Посмотрите и послушайте наше авто в действии!</p>
                 
                 <div class="media-content">
-                    <video class="car-video" controls poster="photos/car-preview.jpg">
+                    <video class="car-video" controls poster="photos/toytgt86055.jpg">
                         <source src="media/TOYOTA GR86 ACCELERATING EXHAUST SOUND!!.mp4" type="video/mp4">
                     </video>
                     
@@ -46,16 +61,16 @@
             </div>
         </section>
 
-        <section class="cards">
-            <div class="card">
+        <section class="cards-grid">
+            <div class="card float-animation">
                 <h3>Премиальное качество</h3>
                 <p>Только проверенные автомобили с безупречной историей</p>
             </div>
-            <div class="card">
+            <div class="card float-animation float-delay-1">
                 <h3>Индивидуальный подход</h3>
                 <p>Подберем автомобиль специально для вас</p>
             </div>
-            <div class="card">
+            <div class="card float-animation float-delay-2">
                 <h3>Гарантия</h3>
                 <p>Полная гарантия на все автомобили</p>
             </div>
@@ -65,5 +80,117 @@
     <footer>
         <p>&copy; 2025 Project D. Все права защищены.</p>
     </footer>
+
+    <script src="cars.js"></script>
+    
+    <script>
+    // Update navigation on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        updateNavigation();
+        
+        const exploreBtn = document.getElementById('explore-btn');
+        
+        if (exploreBtn) {
+            exploreBtn.addEventListener('click', function() {
+                if (typeof DataManager !== 'undefined') {
+                    DataManager.init();
+                    const stats = DataManager.getStatistics();
+                    
+                    const message = `
+                        <strong>Статистика Project D:</strong><br>
+                        • Пользователей: ${stats.totalUsers}<br>
+                        • Автомобилей: ${stats.totalCars}<br>
+                        • В наличии: ${stats.availableCars}<br>
+                        • Премиум пользователей: ${stats.premiumUsers}
+                    `;
+                    
+                    // Create custom notification
+                    const notification = document.createElement('div');
+                    notification.className = 'notification notification-info';
+                    notification.innerHTML = `
+                        <div class="notification-content">
+                            <span class="notification-message">${message}</span>
+                            <button class="notification-close" aria-label="Закрыть уведомление">×</button>
+                        </div>
+                    `;
+                    
+                    document.body.appendChild(notification);
+                    
+                    setTimeout(() => {
+                        notification.classList.add('show');
+                    }, 10);
+                    
+                    notification.querySelector('.notification-close').addEventListener('click', function() {
+                        notification.classList.remove('show');
+                        setTimeout(() => {
+                            if (notification.parentNode) {
+                                notification.remove();
+                            }
+                        }, 300);
+                    });
+                    
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.classList.remove('show');
+                            setTimeout(() => {
+                                if (notification.parentNode) {
+                                    notification.remove();
+                                }
+                            }, 300);
+                        }
+                    }, 5000);
+                } else {
+                    alert('База данных не загружена');
+                }
+            });
+        }
+    });
+    
+    function updateNavigation() {
+        const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+        const username = localStorage.getItem('username');
+        
+        const navAuth = document.getElementById('nav-auth');
+        const navUser = document.getElementById('nav-user');
+        const navLogout = document.getElementById('nav-logout');
+        const logoutLink = document.getElementById('logout-link');
+        
+        if (isAuthenticated && username) {
+            if (navAuth) navAuth.style.display = 'none';
+            if (navUser) navUser.style.display = 'block';
+            if (navLogout) navLogout.style.display = 'block';
+            
+            if (logoutLink) {
+                logoutLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    handleLogout();
+                });
+            }
+        } else {
+            if (navAuth) navAuth.style.display = 'block';
+            if (navUser) navUser.style.display = 'none';
+            if (navLogout) navLogout.style.display = 'none';
+        }
+    }
+    
+    function handleLogout() {
+        localStorage.removeItem('isAuthenticated');
+        localStorage.removeItem('username');
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userPhone');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('user');
+        
+        // Show notification if available
+        if (typeof NotificationSystem !== 'undefined') {
+            NotificationSystem.show('Вы вышли из системы', 'success');
+        }
+        
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 1000);
+    }
+    </script>
 </body>
 </html>

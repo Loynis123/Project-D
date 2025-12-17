@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Автомобили - Project D</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img class="logo" src="photos/Project_d_logo.webp" alt="Project D Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="cars.html" class="active">Автомобили</a></li>
+                <li><a href="map.html">Карта</a></li>
+                <li id="nav-auth">
+                    <a href="contact.html">Войти</a>
+                </li>
+                <li id="nav-user" style="display: none;">
+                    <a href="dashboard.html">Личный кабинет</a>
+                </li>
+                <li id="nav-logout" style="display: none;">
+                    <a href="#" id="logout-link">Выход</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-section cars-hero">
+            <h1 class="main-title">Наш автопарк</h1>
+            <p class="subtitle">Эксклюзивные JDM автомобили для истинных ценителей</p>
+        </section>
+
+        <section class="content-section">
+            <div class="content-container">
+                <h2 class="section-title">Фильтры выбора</h2>
+                
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="brand-filter">Марка:</label>
+                        <select id="brand-filter" data-filter="brand">
+                            <option value="all">Все марки</option>
+                            <option value="toyota">Toyota</option>
+                            <option value="nissan">Nissan</option>
+                            <option value="mazda">Mazda</option>
+                            <option value="honda">Honda</option>
+                            <option value="subaru">Subaru</option>
+                            <option value="mitsubishi">Mitsubishi</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="price-filter">Цена:</label>
+                        <select id="price-filter" data-filter="price">
+                            <option value="all">Любая цена</option>
+                            <option value="low">До 3,000,000 руб</option>
+                            <option value="medium">3,000,000 - 7,000,000 руб</option>
+                            <option value="high">Более 7,000,000 руб</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="year-filter">Год выпуска:</label>
+                        <select id="year-filter" data-filter="year">
+                            <option value="all">Любой год</option>
+                            <option value="90s">1990-1999</option>
+                            <option value="00s">2000-2009</option>
+                            <option value="10s">2010-2019</option>
+                            <option value="20s">2020-2025</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="type-filter">Тип кузова:</label>
+                        <select id="type-filter" data-filter="type">
+                            <option value="all">Все типы</option>
+                            <option value="coupe">Купе</option>
+                            <option value="sedan">Седан</option>
+                            <option value="hatchback">Хэтчбек</option>
+                            <option value="suv">Внедорожник</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn filter-btn" id="reset-filters">Сбросить фильтры</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="cars-grid">
+            <div class="cars-container" id="cars-container">
+                <!-- Cars will be loaded dynamically from JSON -->
+                <div id="loading-message" style="text-align: center; padding: 3rem; color: #666;">
+                    <div class="loader-spinner" style="margin: 0 auto 1rem; width: 40px; height: 40px;"></div>
+                    Загрузка автомобилей...
+                </div>
+            </div>
+            
+            <!-- Message will be inserted here by filters.js -->
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Project D. Все права защищены.</p>
+    </footer>
+
+    <script src="cars.js"></script>
+    
+    <script>
+    // Update navigation on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        updateNavigation();
+        
+        // Load cars from JSON
+        loadCarsFromJSON();
+        
+        function loadCarsFromJSON() {
+            const carsContainer = document.getElementById('cars-container');
+            
+            // Try to get cars from DataManager (API)
+            if (typeof DataManager !== 'undefined') {
+                DataManager.getCars()
+                    .then(cars => {
+                        if (cars && cars.length > 0) {
+                            displayCars(cars);
+                        } else {
+                            // Fallback to local JSON file
+                            loadLocalCars();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error loading cars from DataManager:', error);
+                        // Fallback to local JSON file
+                        loadLocalCars();
+                    });
+            } else {
+                // Fallback to local JSON file
+                loadLocalCars();
+            }
+        }
+        
+        function loadLocalCars() {
+            fetch('cars.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(cars => {
+                    if (cars && cars.length > 0) {
+                        displayCars(cars);
+                    } else {
+                        showNoCarsMessage();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading local cars.json:', error);
+                    showNoCarsMessage();
+                });
+        }
+        
+        function displayCars(cars) {
+            const carsContainer = document.getElementById('cars-container');
+            
+            // Hide loading message
+            const loadingMessage = document.getElementById('loading-message');
+            if (loadingMessage) {
+                loadingMessage.style.display = 'none';
+            }
+            
+            if (!cars || cars.length === 0) {
+                showNoCarsMessage();
+                return;
+            }
+            
+            let carsHTML = '';
+            
+            cars.forEach(car => {
+                const priceCategory = getPriceCategory(car.price);
+                const yearCategory = getYearCategory(car.year);
+                const formattedPrice = formatPrice(car.price);
+                
+                // Определяем URL страницы покупки на основе модели автомобиля
+                const buyPage = getBuyPageUrl(car.name);
+                
+                carsHTML += `
+                <div class="car-card" data-brand="${car.brand}" data-price="${priceCategory}" data-year="${yearCategory}" data-type="${car.type}">
+                    <div class="car-image">
+                        <img src="${car.image}" alt="${car.name}" onerror="this.src='photos/default-car.jpg'">
+                        ${!car.isAvailable ? '<div class="sold-badge">ПРОДАНО</div>' : ''}
+                    </div>
+                    <div class="car-info">
+                        <h3>${car.name}</h3>
+                        <p class="car-year">${car.year} год</p>
+                        <p class="car-price">${formattedPrice} руб</p>
+                        <p class="car-description">${car.description}</p>
+                        <div class="car-specs">
+                            <span>${car.specs}</span>
+                        </div>
+                        <div class="car-actions">
+                            <button class="btn btn-secondary view-details-btn" 
+                                    data-car-name="${car.name}"
+                                    data-car-price="${formattedPrice}"
+                                    data-car-year="${car.year}"
+                                    data-car-image="${car.image}"
+                                    data-car-description="${car.description}"
+                                    data-car-specs="${car.specs}"
+                                    data-car-available="${car.isAvailable}">
+                                Подробнее
+                            </button>
+                            <button class="btn btn-favorite add-to-favorite-btn" 
+                                    data-car-id="${car.id}" 
+                                    data-car-name="${car.name}"
+                                    ${!car.isAvailable ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>
+                                <span class="favorite-icon">🤍</span> В избранное
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                `;
+            });
+            
+            carsContainer.innerHTML = carsHTML;
+            
+            // Initialize car details buttons
+            initializeCarDetailsButtons();
+            
+            // Initialize favorite buttons
+            checkFavoritesStatus();
+            
+            // Initialize filters AFTER cars are loaded
+            setTimeout(() => {
+                if (typeof CarFilters !== 'undefined' && CarFilters.init) {
+                    CarFilters.init();
+                }
+            }, 100);
+        }
+        
+        function initializeCarDetailsButtons() {
+            document.querySelectorAll('.view-details-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const carName = this.getAttribute('data-car-name');
+                    const buyPage = getBuyPageUrl(carName);
+                    
+                    if (buyPage && buyPage !== '#') {
+                        // Перенаправляем на страницу покупки
+                        window.location.href = buyPage;
+                    } else {
+                        // Если страница не найдена, показываем уведомление
+                        if (typeof NotificationSystem !== 'undefined') {
+                            NotificationSystem.show(`Страница покупки для ${carName} не найдена`, 'info');
+                        }
+                    }
+                });
+            });
+        }
+        
+        function getBuyPageUrl(carName) {
+            const buyPages = {
+                'Toyota GR86': 'buy-toyota-gr86.html',
+                'Toyota Supra MK4': 'buy-toyota-supra-mk4.html',
+                'Nissan GT-R Nismo': 'buy-nissan-gtr-nismo.html',
+                'Nissan Silvia S15': 'buy-nissan-silvia-s15.html',
+                'Mazda RX-7 FD': 'buy-mazda-rx7-fd.html',
+                'Honda S2000': 'buy-honda-s2000.html',
+                'Subaru WRX STI': 'buy-subaru-wrx-sti.html',
+                'Mitsubishi Lancer Evolution X': 'buy-mitsubishi-lancer-evo-x.html'
+            };
+            
+            return buyPages[carName] || '#';
+        }
+        
+        function checkFavoritesStatus() {
+            const userId = localStorage.getItem('userId');
+            if (!userId) return;
+            
+            // Check if DataManager is available
+            if (typeof DataManager !== 'undefined') {
+                DataManager.getFavorites(userId)
+                    .then(favorites => {
+                        document.querySelectorAll('.add-to-favorite-btn').forEach(button => {
+                            const carId = button.getAttribute('data-car-id');
+                            const isFavorite = favorites.some(f => f.carId == carId);
+                            
+                            if (isFavorite) {
+                                button.innerHTML = '<span class="favorite-icon">❤️</span> В избранном';
+                                button.classList.add('favorited');
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error checking favorites:', error);
+                    });
+            }
+        }
+        
+        function updateFavoriteButton(button, isFavorite) {
+            if (isFavorite) {
+                button.innerHTML = '<span class="favorite-icon">❤️</span> В избранном';
+                button.classList.add('favorited');
+            } else {
+                button.innerHTML = '<span class="favorite-icon">🤍</span> В избранное';
+                button.classList.remove('favorited');
+            }
+        }
+        
+        function getPriceCategory(price) {
+            if (price <= 3000000) return 'low';
+            if (price <= 7000000) return 'medium';
+            return 'high';
+        }
+        
+        function getYearCategory(year) {
+            if (year >= 1990 && year <= 1999) return '90s';
+            if (year >= 2000 && year <= 2009) return '00s';
+            if (year >= 2010 && year <= 2019) return '10s';
+            return '20s';
+        }
+        
+        function formatPrice(price) {
+            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+        }
+        
+        function showNoCarsMessage() {
+            const carsContainer = document.getElementById('cars-container');
+            carsContainer.innerHTML = `
+                <div class="no-results-message" style="display: block;">
+                    <p>Автомобили временно недоступны.</p>
+                    <p>Попробуйте обновить страницу позже.</p>
+                </div>
+            `;
+        }
+    });
+    
+    function updateNavigation() {
+        const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+        const username = localStorage.getItem('username');
+        
+        const navAuth = document.getElementById('nav-auth');
+        const navUser = document.getElementById('nav-user');
+        const navLogout = document.getElementById('nav-logout');
+        const logoutLink = document.getElementById('logout-link');
+        
+        if (isAuthenticated && username) {
+            if (navAuth) navAuth.style.display = 'none';
+            if (navUser) navUser.style.display = 'block';
+            if (navLogout) navLogout.style.display = 'block';
+            
+            if (logoutLink) {
+                logoutLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    handleLogout();
+                });
+            }
+        } else {
+            if (navAuth) navAuth.style.display = 'block';
+            if (navUser) navUser.style.display = 'none';
+            if (navLogout) navLogout.style.display = 'none';
+        }
+    }
+    
+    function handleLogout() {
+        localStorage.removeItem('isAuthenticated');
+        localStorage.removeItem('username');
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userPhone');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('user');
+        
+        // Show notification if available
+        if (typeof NotificationSystem !== 'undefined') {
+            NotificationSystem.show('Вы вышли из системы', 'success');
+        }
+        
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 1000);
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subaru WRX STI - Покупка - Project D</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .purchase-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .car-detail-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .car-detail-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+        }
+        
+        .car-detail-image {
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            min-height: 300px;
+        }
+        
+        .car-detail-image img {
+            width: auto;
+            max-width: 100%;
+            max-height: 400px;
+            height: auto;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        
+        .car-detail-info h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #222;
+        }
+        
+        .car-price-large {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .car-specs-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        
+        .car-specs-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .spec-label {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .spec-value {
+            color: #666;
+        }
+        
+        .purchase-btn {
+            width: 100%;
+            padding: 1.5rem;
+            font-size: 1.3rem;
+            margin-top: 1rem;
+        }
+        
+        .reviews-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .reviews-title {
+            font-size: 1.8rem;
+            color: #222;
+        }
+        
+        .average-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .stars {
+            color: #ffa500;
+        }
+        
+        .review-card {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+        
+        .review-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .reviewer-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1rem;
+        }
+        
+        .review-date {
+            color: #999;
+            font-size: 0.9rem;
+        }
+        
+        .review-rating {
+            color: #ffa500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .review-text {
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .add-review-btn {
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .car-detail-header {
+                grid-template-columns: 1fr;
+            }
+            
+            .car-detail-info h1 {
+                font-size: 2rem;
+            }
+            
+            .car-price-large {
+                font-size: 1.5rem;
+            }
+            
+            .car-detail-image {
+                min-height: 250px;
+            }
+            
+            .car-detail-image img {
+                max-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img class="logo" src="photos/Project_d_logo.webp" alt="Project D Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="cars.html" class="active">Автомобили</a></li>
+                <li><a href="map.html">Карта</a></li>
+                <li id="nav-auth">
+                    <a href="contact.html">Войти</a>
+                </li>
+                <li id="nav-user" style="display: none;">
+                    <a href="dashboard.html">Личный кабинет</a>
+                </li>
+                <li id="nav-logout" style="display: none;">
+                    <a href="#" id="logout-link">Выход</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="purchase-section">
+            <div class="car-detail-card">
+                <div class="car-detail-header">
+                    <div class="car-detail-image">
+                        <img src="photos/subaru wrx sti.webp" alt="Subaru WRX STI">
+                    </div>
+                    <div class="car-detail-info">
+                        <h1>Subaru WRX STI</h1>
+                        <div class="car-price-large">3,500,000 руб</div>
+                        
+                        <ul class="car-specs-list">
+                            <li>
+                                <span class="spec-label">Год выпуска:</span>
+                                <span class="spec-value">2018</span>
+                            </li>
+                            <li>
+                                <span class="spec-label">Двигатель:</span>
+                                <span class="spec-value">2.5L Turbo (EJ257)</span>
+                            </li>
+                            <li>
+                                <span class="spec-label">Мощность:</span>
+                                <span class="spec-value">310 л.с.</span>
+                            </li>
+                            <li>
+                                <span class="spec-label">Разгон 0-100 км/ч:</span>
+                                <span class="spec-value">5.2 сек</span>
+                            </li>
+                            <li>
+                                <span class="spec-label">Тип кузова:</span>
+                                <span class="spec-value">Седан</span>
+                            </li>
+                            <li>
+                                <span class="spec-label">Привод:</span>
+                                <span class="spec-value">Полный (Symmetrical AWD)</span>
+                            </li>
+                            <li>
+                                <span class="spec-label">Статус:</span>
+                                <span class="spec-value" style="color: #28a745; font-weight: 600;">В наличии</span>
+                            </li>
+                        </ul>
+                        
+                        <p style="color: #555; line-height: 1.6; margin-bottom: 1rem;">
+                            Легендарный полноприводный спортседан с оппозитным двигателем. 
+                            Победитель многочисленных ралли, икона японского автоспорта и 
+                            один из самых узнаваемых автомобилей в мире!
+                        </p>
+                        
+                        <button class="btn purchase-btn" onclick="handlePurchase()">Купить автомобиль</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reviews-section">
+                <div class="reviews-header">
+                    <h2 class="reviews-title">Отзывы покупателей</h2>
+                    <div class="average-rating">
+                        <span class="stars">★★★★★</span>
+                        <span>4.8</span>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">Михаил Ч.</span>
+                        <span class="review-date">20 ноября 2024</span>
+                    </div>
+                    <div class="review-rating">★★★★★</div>
+                    <p class="review-text">
+                        WRX STI - это легенда ралли в повседневной жизни! Полный привод дает 
+                        уверенность в любую погоду, мощности хватает с запасом. Звук боксера - 
+                        это отдельное удовольствие. Машина мечты для фанатов Subaru!
+                    </p>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">Станислав Ю.</span>
+                        <span class="review-date">5 ноября 2024</span>
+                    </div>
+                    <div class="review-rating">★★★★★</div>
+                    <p class="review-text">
+                        Отличный спортседан для круглогодичной эксплуатации. Зимой полный привод 
+                        незаменим, летом - чистое удовольствие на извилистых дорогах. Надежный, 
+                        мощный, практичный. Project D подобрали идеальный экземпляр!
+                    </p>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">Григорий П.</span>
+                        <span class="review-date">18 октября 2024</span>
+                    </div>
+                    <div class="review-rating">★★★★☆</div>
+                    <p class="review-text">
+                        STI - это настоящий драйверс кар! Управление точное, мощности много, 
+                        полный привод творит чудеса. Расход топлива немаленький, но за такие 
+                        эмоции можно и потерпеть. Лучший выбор среди японских спортседанов!
+                    </p>
+                </div>
+
+                <button class="btn btn-secondary add-review-btn" onclick="addReview()">
+                    Написать отзыв
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Project D. Все права защищены.</p>
+    </footer>
+
+    <script src="cars.js"></script>
+    <script>
+        function handlePurchase() {
+            const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+            
+            if (!isAuthenticated) {
+                if (typeof NotificationSystem !== 'undefined') {
+                    NotificationSystem.show('Для покупки необходимо войти в систему', 'info');
+                } else {
+                    alert('Для покупки необходимо войти в систему');
+                }
+                setTimeout(() => {
+                    window.location.href = 'contact.html';
+                }, 1500);
+                return;
+            }
+            
+            const confirmed = confirm('Вы уверены, что хотите купить Subaru WRX STI за 3,500,000 руб?');
+            if (confirmed) {
+                if (typeof NotificationSystem !== 'undefined') {
+                    NotificationSystem.show('Заявка на покупку отправлена! Наш менеджер свяжется с вами в ближайшее время.', 'success');
+                } else {
+                    alert('Заявка на покупку отправлена! Наш менеджер свяжется с вами в ближайшее время.');
+                }
+            }
+        }
+        
+        function addReview() {
+            const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+            
+            if (!isAuthenticated) {
+                if (typeof NotificationSystem !== 'undefined') {
+                    NotificationSystem.show('Для добавления отзыва необходимо войти в систему', 'info');
+                } else {
+                    alert('Для добавления отзыва необходимо войти в систему');
+                }
+                setTimeout(() => {
+                    window.location.href = 'contact.html';
+                }, 1500);
+                return;
+            }
+            
+            if (typeof NotificationSystem !== 'undefined') {
+                NotificationSystem.show('Функция добавления отзывов будет доступна в ближайшее время', 'info');
+            } else {
+                alert('Функция добавления отзывов будет доступна в ближайшее время');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mitsubishi Lancer Evolution X - Покупка - Project D</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .purchase-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .car-detail-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .car-detail-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+        }
+        
+        .car-detail-image {
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            min-height: 300px;
+        }
+        
+        .car-detail-image img {
+            width: auto;
+            max-width: 100%;
+            max-height: 400px;
+            height: auto;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        
+        .car-detail-info h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #222;
+        }
+        
+        .car-price-large {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .car-specs-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+        
+        .car-specs-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .spec-label {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .spec-value {
+            color: #666;
+        }
+        
+        .purchase-btn {
+            width: 100%;
+            padding: 1.5rem;
+            font-size: 1.3rem;
+            margin-top: 1rem;
+        }
+        
+        .reviews-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .reviews-title {
+            font-size: 1.8rem;
+            color: #222;
+        }
+        
+        .average-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .stars {
+            color: #ffa500;
+        }
+        
+        .review-card {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+        
+        .review-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .reviewer-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1rem;
+        }
+        
+        .review-date {
+            color: #999;
+            font-size: 0.9rem;
+        }
+        
+        .review-rating {
+            color: #ffa500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .review-text {
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .add-review-btn {
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .car-detail-header {
+                grid-template-columns: 1fr;
+            }
+            
+            .car-detail-info h1 {
+                font-size: 2rem;
+            }
+            
+            .car-price-large {
+                font-size: 1.5rem;
+            }
+            
+            .car-detail-image {
+                min-height: 250px;
+            }
+            
+            .car-detail-image img {
+                max-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img class="logo" src="photos/Project_d_logo.webp" alt="Project D Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="cars.html" class="active">Автомобили</a></li>
+                <li><a href="map.html">Карта</a></li>
+                <li id="nav-auth">
+                    <a href="contact.html">Войти</a>
+                </li>
+                <li id="nav-user" style="display: none;">
+                    <a href="dashboard.html">Личный кабинет</a>
+                </li>
+                <li id="nav-logout" style="display: none;">
+                    <a href="#" id="logout-link">Выход</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="purchase-section">
+            <div class="car-detail-card">
+                <div class="car-detail-header">
+                    <div class="car-detail-image">
+                        <img src="photos/lancer x.jpg" alt="Mitsubishi Lancer Evolution X">
+                    </div>
+                    <div class="car-detail-info">
+                        <h1>Mitsubishi Lancer Evolution X</h1>
+                        <div class="car-price-large">3,200,000 руб</div>
+                        
+                        <ul class="car-specs-list">
+                            <li>
+                                <span class="spec-label">Год выпуска:</span>
+                                <span class="spec-value">2010</span>
+                            </li>
+                            <li>
+                                <span class="spec-label">Двигатель:</span>
+                                <span class="spec-value">2.0L Turbo (4B11T)</span>
+                            </li>
+                            <li>
+                                <span class="spec-label">Мощность:</span>
+                                <span class="spec-value">300 л.с.</span>
+                            </li>
+                            <li>
+                                <span class="spec-label">Разгон 0-100 км/ч:</span>
+                                <span class="spec-value">5.0 сек</span>
+                            </li>
+                            <li>
+                                <span class="spec-label">Тип кузова:</span>
+                                <span class="spec-value">Седан</span>
+                            </li>
+                            <li>
+                                <span class="spec-label">Привод:</span>
+                                <span class="spec-value">Полный (S-AWC)</span>
+                            </li>
+                            <li>
+                                <span class="spec-label">Статус:</span>
+                                <span class="spec-value" style="color: #28a745; font-weight: 600;">В наличии</span>
+                            </li>
+                        </ul>
+                        
+                        <p style="color: #555; line-height: 1.6; margin-bottom: 1rem;">
+                            Последнее поколение легендарного Evo с системой полного привода S-AWC. 
+                            Совершенная технология управления, невероятная динамика и ралийные гены. 
+                            Финальная глава в истории величайшего спортседана!
+                        </p>
+                        
+                        <button class="btn purchase-btn" onclick="handlePurchase()">Купить автомобиль</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reviews-section">
+                <div class="reviews-header">
+                    <h2 class="reviews-title">Отзывы покупателей</h2>
+                    <div class="average-rating">
+                        <span class="stars">★★★★★</span>
+                        <span>4.9</span>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">Александр З.</span>
+                        <span class="review-date">25 ноября 2024</span>
+                    </div>
+                    <div class="review-rating">★★★★★</div>
+                    <p class="review-text">
+                        Evolution X - это вершина развития модели Evo! Система S-AWC работает 
+                        безупречно, машина держится на дороге как приклеенная. Последнее поколение 
+                        получилось самым технологичным. Горжусь, что владею этим автомобилем!
+                    </p>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">Ярослав Л.</span>
+                        <span class="review-date">10 ноября 2024</span>
+                    </div>
+                    <div class="review-rating">★★★★★</div>
+                    <p class="review-text">
+                        Легенда ралли в повседневной жизни! Полный привод дает невероятную 
+                        уверенность, мощности хватает с запасом. Это последний настоящий Evo, 
+                        и я рад, что успел его купить. Спасибо Project D за помощь!
+                    </p>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="reviewer-name">Тимур Р.</span>
+                        <span class="review-date">28 октября 2024</span>
+                    </div>
+                    <div class="review-rating">★★★★★</div>
+                    <p class="review-text">
+                        Evo X - это машина мечты! Сочетание мощности, технологий и управляемости 
+                        на высшем уровне. Можно ездить каждый день, а можно на трек. Универсальный 
+                        спортседан с легендарной историей. Лучшая покупка!
+                    </p>
+                </div>
+
+                <button class="btn btn-secondary add-review-btn" onclick="addReview()">
+                    Написать отзыв
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Project D. Все права защищены.</p>
+    </footer>
+
+    <script src="cars.js"></script>
+    <script>
+        function handlePurchase() {
+            const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+            
+            if (!isAuthenticated) {
+                if (typeof NotificationSystem !== 'undefined') {
+                    NotificationSystem.show('Для покупки необходимо войти в систему', 'info');
+                } else {
+                    alert('Для покупки необходимо войти в систему');
+                }
+                setTimeout(() => {
+                    window.location.href = 'contact.html';
+                }, 1500);
+                return;
+            }
+            
+            const confirmed = confirm('Вы уверены, что хотите купить Mitsubishi Lancer Evolution X за 3,200,000 руб?');
+            if (confirmed) {
+                if (typeof NotificationSystem !== 'undefined') {
+                    NotificationSystem.show('Заявка на покупку отправлена! Наш менеджер свяжется с вами в ближайшее время.', 'success');
+                } else {
+                    alert('Заявка на покупку отправлена! Наш менеджер свяжется с вами в ближайшее время.');
+                }
+            }
+        }
+        
+        function addReview() {
+            const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+            
+            if (!isAuthenticated) {
+                if (typeof NotificationSystem !== 'undefined') {
+                    NotificationSystem.show('Для добавления отзыва необходимо войти в систему', 'info');
+                } else {
+                    alert('Для добавления отзыва необходимо войти в систему');
+                }
+                setTimeout(() => {
+                    window.location.href = 'contact.html';
+                }, 1500);
+                return;
+            }
+            
+            if (typeof NotificationSystem !== 'undefined') {
+                NotificationSystem.show('Функция добавления отзывов будет доступна в ближайшее время', 'info');
+            } else {
+                alert('Функция добавления отзывов будет доступна в ближайшее время');
+            }
+        }
+    </script>
+</body>
+</html>

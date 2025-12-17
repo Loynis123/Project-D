@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "username": "admin",
+    "email": "admin@projectd.com",
+    "password": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "full_name": "Администратор",
+    "phone": "+7 (999) 123-45-67",
+    "created_at": "2025-11-17T10:30:00.000Z",
+    "updated_at": null,
+    "is_active": true,
+    "role": "premium"
+  },
+  {
+    "id": 2,
+    "username": "Krouli",
+    "email": "some@gmail.com",
+    "password": "9412f1d0d83a676e6b2571b45ecd470635cd752c45fb69b49bac42628d7d0cfb",
+    "full_name": "Julian Back",
+    "phone": "+79889449054",
+    "created_at": "2025-12-04T15:30:04.636Z",
+    "updated_at": null,
+    "is_active": true,
+    "role": "user"
+  },
+  {
+    "id": 1765307463794,
+    "username": "Max",
+    "email": "verstappen@gmail.com",
+    "password": "f85b43067a280d4cc40f89cb78d8efff6e908727bc3cb43a9ae72b400d2eecc5",
+    "full_name": "Max Verstappen",
+    "phone": "+79889449054",
+    "created_at": "2025-12-09T19:11:03.794Z",
+    "updated_at": null,
+    "is_active": true,
+    "role": "user"
+  }
+]

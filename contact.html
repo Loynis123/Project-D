@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход в личный кабинет - Project D</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+    </div>
+
+    <header>
+        <div class="logo-container">
+            <img class="logo" src="photos/Project_d_logo.webp" alt="Project D Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="cars.html">Автомобили</a></li>
+                <li><a href="map.html">Карта</a></li>
+                <li id="nav-auth">
+                    <a href="contact.html" class="active">Войти</a>
+                </li>
+                <li id="nav-user" style="display: none;">
+                    <a href="dashboard.html">Личный кабинет</a>
+                </li>
+                <li id="nav-logout" style="display: none;">
+                    <a href="#" id="logout-link">Выход</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-section login-hero">
+            <div class="login-container">
+                <div class="login-card" id="login-card">
+                    <div class="login-header">
+                        <h1 class="main-title">Вход в личный кабинет</h1>
+                        <p class="subtitle">Добро пожаловать в Project D</p>
+                    </div>
+                    
+                    <form class="login-form" id="login-form">
+                        <div class="form-group">
+                            <label for="login-username">Логин</label>
+                            <input type="text" id="login-username" placeholder="Введите ваш логин" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="login-password">Пароль</label>
+                            <input type="password" id="login-password" placeholder="Введите ваш пароль" required>
+                            <button type="button" class="password-toggle" id="password-toggle">Показать</button>
+                        </div>
+                        
+                        <div class="form-options">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="remember-me">
+                                <span class="checkmark"></span>
+                                Запомнить меня
+                            </label>
+                            <a href="#" class="forgot-password">Забыли пароль?</a>
+                        </div>
+                        
+                        <button type="submit" class="btn login-btn" id="login-submit">
+                            <span class="btn-text">Войти</span>
+                            <div class="btn-loader" id="btn-loader">
+                                <div class="spinner"></div>
+                            </div>
+                        </button>
+                        
+                        <div class="login-divider">
+                            <span>или</span>
+                        </div>
+                        
+                        <div class="social-login">
+                            <button type="button" class="btn btn-social google-btn">
+                                Войти через Google
+                            </button>
+                            
+                            <button type="button" class="btn btn-social yandex-btn">
+                                Войти через Яндекс
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div class="login-footer">
+                        <p>Нет аккаунта? <a href="#" class="register-link">Зарегистрироваться</a></p>
+                    </div>
+                </div>
+                
+                <div class="login-card" id="already-logged-in" style="display: none; text-align: center;">
+                    <div class="login-header">
+                        <h1 class="main-title">Вы уже авторизованы!</h1>
+                        <p class="subtitle" id="current-username"></p>
+                    </div>
+                    <div style="margin-top: 2rem;">
+                        <a href="dashboard.html" class="btn login-btn">Перейти в личный кабинет</a>
+                        <button class="btn login-btn" id="logout-btn" style="margin-top: 1rem; background-color: #ff5500;">Выход</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Project D. Все права защищены.</p>
+    </footer>
+
+    <script src="cars.js"></script>
+    
+    <script>
+    // Update navigation on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        updateNavigation();
+    });
+    
+    function updateNavigation() {
+        const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+        const username = localStorage.getItem('username');
+        
+        const navAuth = document.getElementById('nav-auth');
+        const navUser = document.getElementById('nav-user');
+        const navLogout = document.getElementById('nav-logout');
+        const logoutLink = document.getElementById('logout-link');
+        
+        if (isAuthenticated && username) {
+            if (navAuth) navAuth.style.display = 'none';
+            if (navUser) navUser.style.display = 'block';
+            if (navLogout) navLogout.style.display = 'block';
+            
+            if (logoutLink) {
+                logoutLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    handleLogout();
+                });
+            }
+        } else {
+            if (navAuth) navAuth.style.display = 'block';
+            if (navUser) navUser.style.display = 'none';
+            if (navLogout) navLogout.style.display = 'none';
+        }
+    }
+    
+    function handleLogout() {
+        localStorage.removeItem('isAuthenticated');
+        localStorage.removeItem('username');
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userPhone');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('user');
+        
+        // Show notification if available
+        if (typeof NotificationSystem !== 'undefined') {
+            NotificationSystem.show('Вы вышли из системы', 'success');
+        }
+        
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 1000);
+    }
+    </script>
+</body>
+</html>
